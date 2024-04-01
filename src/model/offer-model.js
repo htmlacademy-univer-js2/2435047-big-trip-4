@@ -3,12 +3,14 @@ import { OFFER_COUNT } from '../const';
 import { getRandomInteger } from '../utils';
 
 export default class OfferModel {
+  #offers = null;
+
   constructor() {
-    this.offers = Array.from({ length: getRandomInteger(1, OFFER_COUNT) }, getRandomOffer);
+    this.#offers = Array.from({ length: getRandomInteger(1, OFFER_COUNT) }, getRandomOffer);
   }
 
   getOfferById(id) {
-    this.offers.forEach((offer) => {
+    this.#offers.forEach((offer) => {
       if (offer.id === id) {
         return offer;
       }
@@ -18,10 +20,10 @@ export default class OfferModel {
   }
 
   getOffersIDs() {
-    return this.offers.map((offer) => offer.id);
+    return this.#offers.map((offer) => offer.id);
   }
 
   getOffers() {
-    return this.offers;
+    return this.#offers;
   }
 }
