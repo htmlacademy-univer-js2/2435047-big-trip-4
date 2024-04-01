@@ -2,12 +2,14 @@ import { getRandomCity } from '../mock/city';
 import { DESTINATION_COUNT } from '../const';
 
 export default class CityModel {
+  #cities = null;
+
   constructor() {
-    this.cities = Array.from({ length: DESTINATION_COUNT }, getRandomCity);
+    this.#cities = Array.from({ length: DESTINATION_COUNT }, getRandomCity);
   }
 
   getCityById(id) {
-    this.cities.forEach((city) => {
+    this.#cities.forEach((city) => {
       if (city.id === id) {
         return city;
       }
@@ -17,7 +19,7 @@ export default class CityModel {
   }
 
   getCityDescById(id) {
-    this.cities.forEach((city) => {
+    this.#cities.forEach((city) => {
       if (city.id === id) {
         return city.description;
       }
@@ -27,6 +29,6 @@ export default class CityModel {
   }
 
   getCities() {
-    return this.cities;
+    return this.#cities;
   }
 }

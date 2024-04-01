@@ -1,29 +1,67 @@
 import EventListView from '../view/event-list-view.js';
 import SortView from '../view/sort-view.js';
-import EventView from '../view/event-edit-view.js';
-import NewPointView from '../view/new-point-view.js';
-import { render } from '../render.js';
+import PointView from '../view/point-view.js';
+import { render, replace } from '../framework/render.js';
 import { POINT_COUNT } from '../const.js';
+import PointEditView from '../view/point-edit-view.js';
 
 export default class EventsPresenter {
-  eventsComponent = new EventListView();
+  #eventsContainer = null;
+  #pointModel = null;
+  #points = null;
+
+  #eventsComponent = new EventListView();
 
   constructor({ eventsContainer, pointModel }) {
-    this.eventsContainer = eventsContainer;
-    this.pointModel = pointModel;
+    this.#eventsContainer = eventsContainer;
+    this.#pointModel = pointModel;
   }
 
   init() {
-    this.points = [...this.pointModel.getPoints()];
-    this.currentPoint = this.pointModel.getPoint();
+    this.#points = [...this.#pointModel.getPoints()];
 
-    render(this.eventsComponent, this.eventsContainer);
-    render(new SortView(), this.eventsContainer);
+    render(new SortView(), this.#eventsContainer);
+    render(this.#eventsComponent, this.#eventsContainer);
 
     for (let i = 0; i < POINT_COUNT; i++) {
-      render(new EventView({ data: this.points[i] }), this.eventsComponent.getElement());
+      this.#renderPoint({ point: this.#points[i] });
     }
 
-    render(new NewPointView({ point: this.currentPoint }), this.eventsComponent.getElement());
+  }
+
+  #renderPoint({ point }) {
+    const onEscKeyDown = (evt) => {
+      if (evt.key === 'Escape') {
+        evt.preventDefault();
+        replaceEditToEvent();
+        document.removeEventListener('keydown', onEscKeyDown);
+      }
+    };
+
+    const pointViewComponent = new PointView({
+      point,
+      onClick: () => {
+        replaceEventToEdit();
+        document.addEventListener('keydown', onEscKeyDown);
+      }
+    });
+
+    const pointEditViewComponent = new PointEditView({
+      point,
+      onFormSubmit: () => {
+        replaceEditToEvent();
+        document.removeEventListener('keydown', onEscKeyDown);
+      }
+    });
+
+    function replaceEventToEdit() {
+      replace(pointEditViewComponent, pointViewComponent);
+    }
+
+    function replaceEditToEvent() {
+      replace(pointViewComponent, pointEditViewComponent);
+    }
+
+    render(pointViewComponent, this.#eventsComponent.element);
   }
 }
