@@ -1,6 +1,6 @@
 import { POINT_COUNT } from '../const';
 import { getRandomPoint } from '../mock/point';
-import { getRandomArrayElement } from '../utils';
+import { getRandomArrayElement } from '../utils/common';
 import CityModel from './city-model';
 import OfferModel from './offer-model';
 

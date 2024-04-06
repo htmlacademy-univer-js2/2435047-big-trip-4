@@ -1,6 +1,6 @@
 import { getRandomOffer } from '../mock/offer';
 import { OFFER_COUNT } from '../const';
-import { getRandomInteger } from '../utils';
+import { getRandomInteger } from '../utils/common';
 
 export default class OfferModel {
   #offers = null;

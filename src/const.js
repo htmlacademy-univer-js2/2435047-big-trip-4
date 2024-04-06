@@ -1,6 +1,6 @@
-import { getRandomInteger } from './utils';
+import { getRandomInteger } from './utils/common';
 
-const POINT_COUNT = 3;
+const POINT_COUNT = 8;
 const OFFER_COUNT = 8;
 const DESTINATION_COUNT = 7;
 
@@ -59,6 +59,13 @@ const OffersCount = {
   MAX: 5
 };
 
+const FilterType = {
+  EVERYTHING: 'everything',
+  FUTURE: 'future',
+  PRESENT: 'present',
+  PAST: 'past',
+};
+
 for (let i = 0; i < ImageCount.MAX; i++) {
   IMAGES.push(`${IMAGE_URL}${getRandomInteger(ImageCount.MIN, ImageCount.MAX)}`);
 }
@@ -74,5 +81,6 @@ export {EVENT_TYPES,
   ImageCount,
   OFFER_COUNT,
   DESTINATION_COUNT,
-  IMAGES
+  IMAGES,
+  FilterType
 };

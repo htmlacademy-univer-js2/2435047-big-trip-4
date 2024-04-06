@@ -1,5 +1,5 @@
 import AbstractView from '../framework/view/abstract-view.js';
-import { getDateDiff, getMonthAndDate, getTime } from '../utils.js';
+import { getDateDiff, getMonthAndDate, getTime } from '../utils/points-utils.js';
 
 function createPointTemplate(point) {
   return (
