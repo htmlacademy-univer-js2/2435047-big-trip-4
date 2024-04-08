@@ -1,6 +1,7 @@
 import { EVENT_TYPES, DESTINATIONS, OFFERS, IMAGES, PriceRange } from '../const.js';
 import AbstractView from '../framework/view/abstract-view.js';
-import { getRandomInteger, getFullDate } from '../utils.js';
+import { getRandomInteger } from '../utils/common.js';
+import { getFullDate } from '../utils/points-utils.js';
 
 function createPointEditTemplate(point) {
   return (

@@ -1,4 +1,4 @@
-import { getRandomArrayElement, getRandomInteger } from '../utils.js';
+import { getRandomArrayElement, getRandomInteger } from '../utils/common.js';
 import { DESTINATIONS, DESCRIPTION, IMAGE_URL, ImageCount } from '../const.js';
 
 function getRandomCity() {

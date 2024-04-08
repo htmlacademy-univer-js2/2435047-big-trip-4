@@ -1,9 +1,9 @@
 import EventListView from '../view/event-list-view.js';
 import SortView from '../view/sort-view.js';
 import PointView from '../view/point-view.js';
+import PointEditView from '../view/point-edit-view.js';
 import { render, replace } from '../framework/render.js';
 import { POINT_COUNT } from '../const.js';
-import PointEditView from '../view/point-edit-view.js';
 
 export default class EventsPresenter {
   #eventsContainer = null;
