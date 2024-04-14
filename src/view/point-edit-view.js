@@ -103,12 +103,12 @@ function isChecked(offers, title) {
 
 export default class PointEditView extends AbstractView {
   #point = null;
-  #handleClick = null;
+  #handleFormSubmit = null;
 
   constructor({ point, onFormSubmit }) {
     super();
     this.#point = point;
-    this.#handleClick = onFormSubmit;
+    this.#handleFormSubmit = onFormSubmit;
     this.element.querySelector('.event--edit').addEventListener('submit', this.#clickHandler);
     this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#clickHandler);
   }
@@ -119,6 +119,6 @@ export default class PointEditView extends AbstractView {
 
   #clickHandler = (evt) => {
     evt.preventDefault();
-    this.#handleClick();
+    this.#handleFormSubmit(this.#point);
   };
 }

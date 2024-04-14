@@ -17,12 +17,12 @@ function getRandomDurationTime() {
 
 const date = dayjs().toDate();
 
-function getDate({ endDateFlag, randomTimeNumber, randomDurationTime: randomDurationTime }) {
+function getDate({ endDateFlag, randomTime, randomDurationTime: randomDurationTime }) {
   const randomDurationMins = randomDurationTime[0];
   const randomDurationHours = randomDurationTime[1];
   const randomDurationDays = randomDurationTime[2];
 
-  if (randomTimeNumber === 1) {
+  if (randomTime === 1) {
     if (endDateFlag){
       return dayjs(date)
         .add(-randomDurationDays, 'day')
@@ -37,7 +37,7 @@ function getDate({ endDateFlag, randomTimeNumber, randomDurationTime: randomDura
       .add(-randomDurationMins * 2, 'minute')
       .toDate();
   }
-  else if (randomTimeNumber === 2) {
+  else if (randomTime === 2) {
     if (endDateFlag) {
       return dayjs(date)
         .add(randomDurationDays, 'day')
