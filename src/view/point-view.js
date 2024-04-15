@@ -50,12 +50,18 @@ function isFavorite(check) {
 export default class PointView extends AbstractView {
   #point = null;
   #handleClick = null;
+  #handleFavoriteClick = null;
 
-  constructor({ point, onClick }) {
+  constructor({ point, onClick, onFavoriteClick }) {
     super();
     this.#point = point;
     this.#handleClick = onClick;
-    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#clickHandler);
+    this.#handleFavoriteClick = onFavoriteClick;
+
+    this.element.querySelector('.event__rollup-btn')
+      .addEventListener('click', this.#clickHandler);
+    this.element.querySelector('.event__favorite-btn')
+      .addEventListener('click', this.#favoriteClickHandler);
   }
 
   get template() {
@@ -65,5 +71,10 @@ export default class PointView extends AbstractView {
   #clickHandler = (evt) => {
     evt.preventDefault();
     this.#handleClick();
+  };
+
+  #favoriteClickHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleFavoriteClick();
   };
 }

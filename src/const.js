@@ -66,6 +66,11 @@ const FilterType = {
   PAST: 'past',
 };
 
+const Mode = {
+  DEFAULT: 'DEFAULT',
+  EDITING: 'EDITING',
+};
+
 for (let i = 0; i < ImageCount.MAX; i++) {
   IMAGES.push(`${IMAGE_URL}${getRandomInteger(ImageCount.MIN, ImageCount.MAX)}`);
 }
@@ -82,5 +87,6 @@ export {EVENT_TYPES,
   OFFER_COUNT,
   DESTINATION_COUNT,
   IMAGES,
-  FilterType
+  FilterType,
+  Mode
 };
