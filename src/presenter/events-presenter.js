@@ -6,7 +6,7 @@ import { render } from '../framework/render.js';
 import { updateItem } from '../utils/common.js';
 import { RenderPosition } from '../framework/render.js';
 import { SortType } from '../const.js';
-import { sortByDay, sortByOffers, sortByPrice, sortByTime } from '../utils/points-utils.js';
+import { sortByOffers, sortByPrice, sortByTime } from '../utils/points-utils.js';
 
 export default class EventsPresenter {
   #eventsContainer = null;
@@ -14,7 +14,7 @@ export default class EventsPresenter {
   #points = [];
   #sourcedBoardPoints = [];
   #pointPresenters = new Map();
-  #currentSortType = SortType.EVENT;
+  #currentSortType = SortType.DAY;
   #sortComponent = null;
   #eventsComponent = new EventListView();
 
@@ -43,9 +43,6 @@ export default class EventsPresenter {
   #sortPoints(sortType) {
 
     switch (sortType) {
-      case SortType.DAY:
-        this.#points.sort(sortByDay);
-        break;
       case SortType.TIME:
         this.#points.sort(sortByTime);
         break;

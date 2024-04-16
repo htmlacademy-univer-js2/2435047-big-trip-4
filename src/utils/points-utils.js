@@ -141,5 +141,5 @@ export {
   sortByDay,
   sortByOffers,
   sortByPrice,
-  sortByTime
+  sortByTime,
 };
