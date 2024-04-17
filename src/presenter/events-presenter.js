@@ -2,7 +2,7 @@ import EventListView from '../view/event-list-view.js';
 import SortView from '../view/sort-view.js';
 import NoPointView from '../view/no-point-view.js';
 import PointPresenter from './point-presenter.js';
-import { render } from '../framework/render.js';
+import { remove, render } from '../framework/render.js';
 import { updateItem } from '../utils/common.js';
 import { RenderPosition } from '../framework/render.js';
 import { SortType } from '../const.js';
@@ -65,13 +65,19 @@ export default class EventsPresenter {
     }
 
     this.#sortPoints(sortType);
+    this.#renderSortView();
     this.#clearPointList();
     this.#renderPoints();
   };
 
   #renderSortView() {
+    if (this.#sortComponent !== null) {
+      remove(this.#sortComponent);
+    }
+
     this.#sortComponent = new SortView({
-      onSortTypeChange: this.#handleSortTypeChange
+      onSortTypeChange: this.#handleSortTypeChange,
+      currentSortType: this.#currentSortType
     });
 
     render(this.#sortComponent, this.#eventsComponent.element, RenderPosition.AFTERBEGIN);
