@@ -106,6 +106,28 @@ function isPastedPoint(point) {
   return dayjs().isAfter(point.dateTo);
 }
 
+function sortByTime(pointA, pointB) {
+  const timeFrom = dayjs(pointA.dateTo).diff(dayjs(pointA.dateFrom));
+  const timeTo = dayjs(pointB.dateTo).diff(dayjs(pointB.dateFrom));
+
+  return timeFrom - timeTo;
+}
+
+function sortByPrice(pointA, pointB) {
+  return pointA.basePrice - pointB.basePrice;
+}
+
+function sortByOffers(pointA, pointB) {
+  return pointA.offers.length - pointB.offers.length;
+}
+
+function sortByDay(pointA, pointB) {
+  const timeA = dayjs(pointA.dateFrom);
+  const timeB = dayjs(pointB.dateFrom);
+
+  return timeA - timeB;
+}
+
 export {
   getDate,
   getDateDiff,
@@ -115,5 +137,9 @@ export {
   isFuturedPoint,
   isPastedPoint,
   isPresentedPoint,
-  getRandomDurationTime
+  getRandomDurationTime,
+  sortByDay,
+  sortByOffers,
+  sortByPrice,
+  sortByTime,
 };

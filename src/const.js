@@ -71,6 +71,14 @@ const Mode = {
   EDITING: 'EDITING',
 };
 
+const SortType = {
+  DAY: 'day',
+  EVENT: 'event',
+  TIME: 'time',
+  PRICE: 'price',
+  OFFERS: 'offers'
+};
+
 for (let i = 0; i < ImageCount.MAX; i++) {
   IMAGES.push(`${IMAGE_URL}${getRandomInteger(ImageCount.MIN, ImageCount.MAX)}`);
 }
@@ -88,5 +96,6 @@ export {EVENT_TYPES,
   DESTINATION_COUNT,
   IMAGES,
   FilterType,
-  Mode
+  Mode,
+  SortType
 };

@@ -3,6 +3,7 @@ import { getRandomPoint } from '../mock/point';
 import { getRandomArrayElement } from '../utils/common';
 import CityModel from './city-model';
 import OfferModel from './offer-model';
+import { sortByDay } from '../utils/points-utils';
 
 export default class PointModel {
   cityModel = new CityModel();
@@ -23,7 +24,7 @@ export default class PointModel {
   });
 
   getPoints() {
-    return this.points;
+    return this.points.sort(sortByDay);
   }
 
   getPoint() {
