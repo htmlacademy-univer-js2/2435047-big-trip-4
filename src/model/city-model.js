@@ -5,27 +5,11 @@ export default class CityModel {
   #cities = null;
 
   constructor() {
-    this.#cities = Array.from({ length: DESTINATION_COUNT }, getRandomCity);
+    this.#cities = Array.from({ length: DESTINATION_COUNT }, (_, i) => getRandomCity(i));
   }
 
   getCityById(id) {
-    this.#cities.forEach((city) => {
-      if (city.id === id) {
-        return city;
-      }
-    });
-
-    return '';
-  }
-
-  getCityDescById(id) {
-    this.#cities.forEach((city) => {
-      if (city.id === id) {
-        return city.description;
-      }
-    });
-
-    return '';
+    return this.#cities.find((city) => city.id === id);
   }
 
   getCities() {

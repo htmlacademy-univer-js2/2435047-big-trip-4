@@ -4,13 +4,17 @@ import EventsPresenter from './presenter/events-presenter';
 import PointModel from './model/point-model';
 import { RenderPosition, render } from './framework/render';
 import { generateFilters } from './mock/filter';
+import OfferModel from './model/offer-model';
+import CityModel from './model/city-model';
 
 const mainTripElement = document.querySelector('.trip-main');
 const filtersElement = mainTripElement.querySelector('.trip-controls__filters');
 const tripEvents = document.querySelector('.trip-events');
 
-const pointModel = new PointModel();
-const eventsPresentor = new EventsPresenter({eventsContainer: tripEvents, pointModel});
+const offerModel = new OfferModel();
+const cityModel = new CityModel();
+const pointModel = new PointModel(offerModel, cityModel);
+const eventsPresentor = new EventsPresenter({ eventsContainer: tripEvents, pointModel, cityModel, offerModel });
 const filters = generateFilters(pointModel.getPoints());
 
 render(new TripInfoView(), mainTripElement, RenderPosition.AFTERBEGIN);
