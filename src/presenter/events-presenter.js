@@ -11,16 +11,24 @@ import { sortByOffers, sortByPrice, sortByTime } from '../utils/points-utils.js'
 export default class EventsPresenter {
   #eventsContainer = null;
   #pointModel = null;
+  #cityModel = null;
+  #offerModel = null;
+  #sortComponent = null;
+
   #points = [];
   #sourcedBoardPoints = [];
+
   #pointPresenters = new Map();
-  #currentSortType = SortType.DAY;
-  #sortComponent = null;
   #eventsComponent = new EventListView();
 
-  constructor({ eventsContainer, pointModel }) {
+  #currentSortType = SortType.DAY;
+
+
+  constructor({ eventsContainer, pointModel, cityModel, offerModel }) {
     this.#eventsContainer = eventsContainer;
     this.#pointModel = pointModel;
+    this.#cityModel = cityModel;
+    this.#offerModel = offerModel;
   }
 
   init() {
@@ -30,15 +38,17 @@ export default class EventsPresenter {
     this.#renderBoard();
   }
 
-  #handleModeChange = () => {
-    this.#pointPresenters.forEach((presenter) => presenter.resetView());
-  };
+  #renderBoard() {
+    if (this.#points.length === 0) {
+      this.#renderNoPointView();
+      return;
+    }
 
-  #handlePointChange = (updatedPoint) => {
-    this.#points = updateItem(this.#points, updatedPoint);
-    this.#sourcedBoardPoints = updateItem(this.#sourcedBoardPoints, updatedPoint);
-    this.#pointPresenters.get(updatedPoint.id).init(updatedPoint);
-  };
+    this.#renderPoints();
+
+    this.#renderSortView();
+    this.#renderPointList();
+  }
 
   #sortPoints(sortType) {
 
@@ -95,8 +105,10 @@ export default class EventsPresenter {
   #renderPoint(point) {
     const pointPresenter = new PointPresenter({
       eventsComponentElement: this.#eventsComponent.element,
+      cityModel: this.#cityModel,
+      offerModel: this.#offerModel,
       onDataChange: this.#handlePointChange,
-      onModeChange: this.#handleModeChange
+      onModeChange: this.#handleModeChange,
     });
 
     pointPresenter.init(point);
@@ -113,15 +125,13 @@ export default class EventsPresenter {
     render(new NoPointView(), this.#eventsContainer);
   }
 
-  #renderBoard() {
-    if (this.#points.length === 0) {
-      this.#renderNoPointView();
-      return;
-    }
+  #handleModeChange = () => {
+    this.#pointPresenters.forEach((presenter) => presenter.resetView());
+  };
 
-    this.#renderPoints();
-
-    this.#renderSortView();
-    this.#renderPointList();
-  }
+  #handlePointChange = (updatedPoint) => {
+    this.#points = updateItem(this.#points, updatedPoint);
+    this.#sourcedBoardPoints = updateItem(this.#sourcedBoardPoints, updatedPoint);
+    this.#pointPresenters.get(updatedPoint.id).init(updatedPoint);
+  };
 }

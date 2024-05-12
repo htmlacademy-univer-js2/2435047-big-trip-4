@@ -12,10 +12,16 @@ export default class PointPresenter {
   #eventsComponentElement = null;
 
   #point = null;
+  #cityModel = null;
+  #offerModel = null;
+
   #mode = Mode.DEFAULT;
 
-  constructor({eventsComponentElement, onDataChange, onModeChange}) {
+
+  constructor({eventsComponentElement, cityModel, offerModel, onDataChange, onModeChange}) {
     this.#eventsComponentElement = eventsComponentElement;
+    this.#cityModel = cityModel;
+    this.#offerModel = offerModel;
     this.#handleDataChange = onDataChange;
     this.#handleModeChange = onModeChange;
   }
@@ -28,13 +34,18 @@ export default class PointPresenter {
 
     this.#pointViewComponent = new PointView({
       point: this.#point,
+      pointDestination: this.#cityModel.getCityById(point.destination),
+      pointOffers: this.#offerModel.getOffersByType(point.type),
       onClick: this.#handleOnClick,
       onFavoriteClick: this.#handleFavoriteClick
     });
 
     this.#pointEditViewComponent = new PointEditView({
       point: this.#point,
-      onFormSubmit: this.#handleOnFormSubmit
+      pointDestinations: this.#cityModel.getCities(),
+      pointOffers: this.#offerModel.getOffers(),
+      onFormSubmit: this.#handleOnFormSubmit,
+      onRollUpClick: this.#handleOnRollUpClick,
     });
 
     if (prevPointViewComponent === null || prevPointEditViewComponent === null) {
@@ -96,5 +107,9 @@ export default class PointPresenter {
   #handleOnFormSubmit = (point) => {
     this.#replaceEditToEvent();
     this.#handleDataChange(point);
+  };
+
+  #handleOnRollUpClick = () => {
+    this.#replaceEditToEvent();
   };
 }
