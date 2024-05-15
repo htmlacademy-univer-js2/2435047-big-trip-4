@@ -214,6 +214,7 @@ export default class PointEditView extends AbstractStatefulView {
     });
 
     this.#datepickerTo.set('minDate', this._state.dateFrom);
+    this._state.dateFrom = this._state.dateTo;
   };
 
   #pointDateToChangeHandler = ([userDate]) => {
@@ -222,6 +223,7 @@ export default class PointEditView extends AbstractStatefulView {
     });
 
     this.#datepickerFrom.set('maxDate', this._state.dateTo);
+    this._state.dateTo = this._state.dateFrom;
   };
 
   #setDatepickerFrom = () => {
