@@ -3,12 +3,12 @@ import { SortType } from '../const.js';
 
 function createSortItems(type, currentSortType) {
   return `<div class="trip-sort__item  trip-sort__item--${type}">
-            <input id="sort-${type}" class="trip-sort__input  visually-hidden" data-sort-type="${type}" type="radio" name="trip-sort" value="sort-offer" ${currentSortType === type ? 'checked' : ''} ${type === 'event' ? 'disabled' : ''}>
+            <input id="sort-${type}" class="trip-sort__input visually-hidden" data-sort-type="${type}" type="radio" name="trip-sort" value="sort-${type}" ${currentSortType === type ? 'checked' : ''} ${type === 'event' || type === 'offer' ? 'disabled' : ''}>
             <label class="trip-sort__btn" for="sort-${type}">${type}</label>
           </div>`;
 }
 
-function createSortTemplate(currentSortType) {
+function createSortTemplate({ currentSortType }) {
   const sortItems = Object.values(SortType).map((type) =>
     createSortItems(type, currentSortType)).join('');
 
@@ -32,7 +32,9 @@ export default class SortView extends AbstractView {
   }
 
   get template() {
-    return createSortTemplate(this.#currentSortType);
+    return createSortTemplate({
+      currentSortType: this.#currentSortType
+    });
   }
 
   #sortTypeChangeHandler = (evt) => {

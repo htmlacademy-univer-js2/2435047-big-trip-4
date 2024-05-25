@@ -1,3 +1,5 @@
+const isEscapeKey = (evt) => evt.key === 'Escape' || evt.key === 'Esc';
+
 function getRandomInteger(minimum, maximum) {
   return Math.floor(Math.random() * maximum) + minimum;
 }
@@ -10,4 +12,9 @@ function updateItem(items, update) {
   return items.map((item) => item.id === update.id ? update : item);
 }
 
-export { getRandomArrayElement, getRandomInteger, updateItem };
+export {
+  getRandomArrayElement,
+  getRandomInteger,
+  updateItem,
+  isEscapeKey
+};
