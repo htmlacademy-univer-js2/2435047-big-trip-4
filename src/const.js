@@ -1,8 +1,10 @@
+import dayjs from 'dayjs';
 import { getRandomInteger } from './utils/common';
 
 const POINT_COUNT = 8;
 const OFFER_COUNT = 8;
 const DESTINATION_COUNT = 7;
+const DEFAULT_TYPE = 'Taxi';
 
 
 const EVENT_TYPES = [
@@ -44,6 +46,16 @@ const IMAGE_URL = 'https://loremflickr.com/248/152?random=';
 
 const IMAGES = [];
 
+const EMPTY_POINT = {
+  type: DEFAULT_TYPE,
+  basePrice: 0,
+  dateFrom: dayjs().toDate(),
+  dateTo: dayjs().toDate(),
+  destination: null,
+  isFavorite: false,
+  offers: []
+};
+
 const ImageCount = {
   MIN: 1,
   MAX: 4
@@ -79,6 +91,31 @@ const SortType = {
   OFFERS: 'offers'
 };
 
+const UserAction = {
+  UPDATE_POINT: 'UPDATE_POINT',
+  ADD_POINT: 'ADD_POINT',
+  DELETE_POINT: 'DELETE_POINT',
+};
+
+const UpdateType = {
+  PATCH: 'PATCH',
+  MINOR: 'MINOR',
+  MAJOR: 'MAJOR',
+};
+
+const ButtonText = {
+  CANCEL: 'Cancel',
+  DELETE: 'Delete',
+  SAVE: 'Save'
+};
+
+const NoTasksTextType = {
+  [FilterType.EVERYTHING]: 'Click New Event to create your first point',
+  [FilterType.FUTURE]: 'There are no future events now',
+  [FilterType.PRESENT]: 'There are no present events now',
+  [FilterType.PAST]: 'There are no past events now',
+};
+
 for (let i = 0; i < ImageCount.MAX; i++) {
   IMAGES.push(`${IMAGE_URL}${getRandomInteger(ImageCount.MIN, ImageCount.MAX)}`);
 }
@@ -97,5 +134,10 @@ export {EVENT_TYPES,
   IMAGES,
   FilterType,
   Mode,
-  SortType
+  SortType,
+  UserAction,
+  UpdateType,
+  NoTasksTextType,
+  ButtonText,
+  EMPTY_POINT,
 };

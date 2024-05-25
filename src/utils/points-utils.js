@@ -128,6 +128,10 @@ function sortByDay(pointA, pointB) {
   return timeA - timeB;
 }
 
+function hasBigDifference(point1, point2) {
+  return point1.price !== point2.price || getDateDiff(point1.dateFrom, point1.dateTo) !== getDateDiff(point2.dateFrom, point2.dateTo);
+}
+
 export {
   getDate,
   getDateDiff,
@@ -142,4 +146,5 @@ export {
   sortByOffers,
   sortByPrice,
   sortByTime,
+  hasBigDifference,
 };
