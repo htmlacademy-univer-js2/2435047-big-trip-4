@@ -1,13 +1,6 @@
 import dayjs from 'dayjs';
-import { getRandomInteger } from './utils/common';
 
-const POINT_COUNT = 8;
-const OFFER_COUNT = 8;
-const DESTINATION_COUNT = 7;
-const DEFAULT_TYPE = 'Taxi';
-const DESCRIPTION = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget. Fusce tristique felis at fermentum pharetra. Aliquam id orci ut lectus varius viverra. Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante. Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum. Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui. Sed sed nisi sed augue convallis suscipit in sed felis. Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.';
-const IMAGE_URL = 'https://loremflickr.com/248/152?random=';
-const IMAGES = [];
+const DEFAULT_TYPE = 'taxi';
 
 const EVENT_TYPES = [
   'Taxi',
@@ -19,27 +12,6 @@ const EVENT_TYPES = [
   'Check-in',
   'Sightseeing',
   'Restaurant'
-];
-
-const OFFERS = [
-  'Order Uber',
-  'Add luggage',
-  'Switch to comfort',
-  'Rent a car',
-  'Add breakfast',
-  'Book tickets',
-  'Lunch in city',
-  'Upgrade to a business class'
-];
-
-const DESTINATIONS = [
-  'New York',
-  'Geneva',
-  'Paris',
-  'Moscow',
-  'San Andreas',
-  'Dubai',
-  'Tokio'
 ];
 
 const EMPTY_POINT = {
@@ -55,21 +27,8 @@ const EMPTY_POINT = {
 const Method = {
   GET: 'GET',
   PUT: 'PUT',
-};
-
-const ImageCount = {
-  MIN: 1,
-  MAX: 4
-};
-
-const PriceRange = {
-  MIN: 1,
-  MAX: 1500
-};
-
-const OffersCount = {
-  MIN: 1,
-  MAX: 5
+  DELETE: 'DELETE',
+  POST: 'POST',
 };
 
 const FilterType = {
@@ -108,7 +67,9 @@ const UpdateType = {
 const ButtonText = {
   CANCEL: 'Cancel',
   DELETE: 'Delete',
-  SAVE: 'Save'
+  DELETING: 'Deleting',
+  SAVE: 'Save',
+  SAVING: 'Saving',
 };
 
 const NoPointsTextType = {
@@ -117,22 +78,13 @@ const NoPointsTextType = {
 
 };
 
-for (let i = 0; i < ImageCount.MAX; i++) {
-  IMAGES.push(`${IMAGE_URL}${getRandomInteger(ImageCount.MIN, ImageCount.MAX)}`);
-}
+const TimeLimit = {
+  LOWER_LIMIT: 350,
+  UPPER_LIMIT: 1000
+};
 
-export {EVENT_TYPES,
-  DESCRIPTION,
-  DESTINATIONS,
-  IMAGE_URL,
-  OFFERS,
-  OffersCount,
-  POINT_COUNT,
-  PriceRange,
-  ImageCount,
-  OFFER_COUNT,
-  DESTINATION_COUNT,
-  IMAGES,
+export {
+  EVENT_TYPES,
   FilterType,
   Mode,
   SortType,
@@ -141,5 +93,6 @@ export {EVENT_TYPES,
   NoPointsTextType,
   ButtonText,
   EMPTY_POINT,
-  Method
+  Method,
+  TimeLimit
 };
