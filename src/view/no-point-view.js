@@ -1,22 +1,22 @@
-import { NoTasksTextType } from '../const';
+import { NoPointsTextType } from '../const';
 import AbstractView from '../framework/view/abstract-view';
 
 
-function createNoPointViewTemplate(filterType) {
-  const noTaskTextValue = NoTasksTextType[filterType];
+function createNoPointViewTemplate(isLoading) {
+  const noPointTextValue = isLoading ? NoPointsTextType.LOADING : NoPointsTextType.NOPOINTS;
 
-  return `<p class="trip-events__msg">${noTaskTextValue}</p>`;
+  return `<p class="trip-events__msg">${noPointTextValue}</p>`;
 }
 
 export default class NoPointView extends AbstractView {
-  #filterType = null;
+  #isLoading = false;
 
-  constructor({ filterType }) {
+  constructor(isLoading) {
     super();
-    this.#filterType = filterType;
+    this.#isLoading = isLoading;
   }
 
   get template() {
-    return createNoPointViewTemplate(this.#filterType);
+    return createNoPointViewTemplate(this.#isLoading);
   }
 }

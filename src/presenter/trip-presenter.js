@@ -17,6 +17,7 @@ export default class TripPresenter {
   #filterModel = null;
   #sortComponent = null;
   #noPointComponent = null;
+  #isLoading = true;
 
   #pointPresenters = new Map();
   #newPointPresenter = null;
@@ -67,15 +68,15 @@ export default class TripPresenter {
   }
 
   #renderBoard() {
-    if (this.points.length === 0) {
+    if (this.points.length === 0 || this.#isLoading) {
       this.#renderNoPointView();
       return;
     }
 
+    this.#renderPointList();
     this.#renderPoints();
 
     this.#renderSortView();
-    this.#renderPointList();
   }
 
   createPoint() {
@@ -84,7 +85,7 @@ export default class TripPresenter {
     this.#newPointPresenter.init();
   }
 
-  #clearTrip({ resetSortType = false } = {}) {
+  #clearBoard({ resetSortType = false } = {}) {
     this.#newPointPresenter.destroy();
     this.#pointPresenters.forEach((presenter) => presenter.destroy());
     this.#pointPresenters.clear();
@@ -107,7 +108,7 @@ export default class TripPresenter {
 
     this.#currentSortType = sortType;
 
-    this.#clearTrip({ resetRenderedTaskCount: true });
+    this.#clearBoard({ resetRenderedTaskCount: true });
     this.#renderBoard();
   };
 
@@ -142,13 +143,15 @@ export default class TripPresenter {
   }
 
   #renderPoints() {
+    if (this.#noPointComponent !== null) {
+      remove(this.#noPointComponent);
+    }
+
     this.points.forEach((point) => this.#renderPoint(point));
   }
 
   #renderNoPointView() {
-    this.#noPointComponent = new NoPointView({
-      filterType: this.#filterType
-    });
+    this.#noPointComponent = new NoPointView(this.#isLoading);
 
     render(this.#noPointComponent, this.#eventsContainer, RenderPosition.AFTERBEGIN);
   }
@@ -178,11 +181,15 @@ export default class TripPresenter {
         this.#pointPresenters.get(data.id).init(data);
         break;
       case UpdateType.MINOR:
-        this.#clearTrip();
+        this.#clearBoard();
         this.#renderBoard();
         break;
       case UpdateType.MAJOR:
-        this.#clearTrip({ resetSortType: true });
+        this.#clearBoard({ resetSortType: true });
+        this.#renderBoard();
+        break;
+      case UpdateType.INIT:
+        this.#isLoading = false;
         this.#renderBoard();
         break;
     }

@@ -1,11 +1,14 @@
-import { getRandomCity } from '../mock/city';
-import { DESTINATION_COUNT } from '../const';
-
 export default class CityModel {
-  #cities = null;
+  #cities = [];
+  #pointApiService = null;
 
-  constructor() {
-    this.#cities = Array.from({ length: DESTINATION_COUNT }, (_, i) => getRandomCity(i));
+  constructor(pointApiService) {
+    this.#pointApiService = pointApiService;
+  }
+
+  async init() {
+    this.#cities = await this.#pointApiService.destinations;
+    return this.#cities;
   }
 
   getCityById(id) {

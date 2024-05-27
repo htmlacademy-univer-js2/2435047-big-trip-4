@@ -5,7 +5,9 @@ const POINT_COUNT = 8;
 const OFFER_COUNT = 8;
 const DESTINATION_COUNT = 7;
 const DEFAULT_TYPE = 'Taxi';
-
+const DESCRIPTION = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget. Fusce tristique felis at fermentum pharetra. Aliquam id orci ut lectus varius viverra. Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante. Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum. Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui. Sed sed nisi sed augue convallis suscipit in sed felis. Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.';
+const IMAGE_URL = 'https://loremflickr.com/248/152?random=';
+const IMAGES = [];
 
 const EVENT_TYPES = [
   'Taxi',
@@ -40,12 +42,6 @@ const DESTINATIONS = [
   'Tokio'
 ];
 
-const DESCRIPTION = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget. Fusce tristique felis at fermentum pharetra. Aliquam id orci ut lectus varius viverra. Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante. Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum. Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui. Sed sed nisi sed augue convallis suscipit in sed felis. Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.';
-
-const IMAGE_URL = 'https://loremflickr.com/248/152?random=';
-
-const IMAGES = [];
-
 const EMPTY_POINT = {
   type: DEFAULT_TYPE,
   basePrice: 0,
@@ -54,6 +50,11 @@ const EMPTY_POINT = {
   destination: null,
   isFavorite: false,
   offers: []
+};
+
+const Method = {
+  GET: 'GET',
+  PUT: 'PUT',
 };
 
 const ImageCount = {
@@ -101,6 +102,7 @@ const UpdateType = {
   PATCH: 'PATCH',
   MINOR: 'MINOR',
   MAJOR: 'MAJOR',
+  INIT: 'INIT'
 };
 
 const ButtonText = {
@@ -109,11 +111,10 @@ const ButtonText = {
   SAVE: 'Save'
 };
 
-const NoTasksTextType = {
-  [FilterType.EVERYTHING]: 'Click New Event to create your first point',
-  [FilterType.FUTURE]: 'There are no future events now',
-  [FilterType.PRESENT]: 'There are no present events now',
-  [FilterType.PAST]: 'There are no past events now',
+const NoPointsTextType = {
+  NOPOINTS: 'Click New Event to create your first point',
+  LOADING: 'Loading...',
+
 };
 
 for (let i = 0; i < ImageCount.MAX; i++) {
@@ -137,7 +138,8 @@ export {EVENT_TYPES,
   SortType,
   UserAction,
   UpdateType,
-  NoTasksTextType,
+  NoPointsTextType,
   ButtonText,
   EMPTY_POINT,
+  Method
 };
