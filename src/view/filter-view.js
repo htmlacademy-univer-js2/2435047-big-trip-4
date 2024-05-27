@@ -1,10 +1,10 @@
 import AbstractView from '../framework/view/abstract-view.js';
 
 function createFilterItemElement(filter, currentFilterType) {
-  const { type } = filter;
+  const { type, count } = filter;
   return `
     <div class="trip-filters__filter">
-      <input id="filter-${type}" class="trip-filters__filter-input  visually-hidden" type="radio" name="trip-filter" value="${type}" ${type === currentFilterType ? 'checked' : ''}>
+      <input id="filter-${type}" class="trip-filters__filter-input  visually-hidden" type="radio" name="trip-filter" value="${type}" ${type === currentFilterType ? 'checked' : ''} ${count ? '' : 'disabled'}>
       <label class="trip-filters__filter-label" for="filter-${type}">${type}</label>
     </div>`;
 }

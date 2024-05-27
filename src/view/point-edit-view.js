@@ -38,8 +38,8 @@ function createPointOfferElement(offers, checkedOffers) {
 }
 
 function createImagesElement(currentDestination) {
-  const currentPhotos = currentDestination ? currentDestination.photos : [];
-  return currentPhotos.map((img) => `<img class="event__photo" src="${img}.jpg" alt="Event photo">`).join('');
+  const currentPhotos = currentDestination ? currentDestination.pictures : [];
+  return currentPhotos ? currentPhotos.map((img) => `<img class="event__photo" src="${img.src}" alt="Event photo">`).join('') : '';
 }
 
 

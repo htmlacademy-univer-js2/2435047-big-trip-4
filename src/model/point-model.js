@@ -1,45 +1,43 @@
-import { EVENT_TYPES, POINT_COUNT } from '../const';
+import { UpdateType } from '../const';
 import Observable from '../framework/observable';
-import { getRandomPoint } from '../mock/point';
-import { getRandomArrayElement, getRandomInteger, updateItem } from '../utils/common';
+import { adaptToClient } from '../utils/adapt-utils';
+import { updateItem } from '../utils/common';
 import { sortByDay } from '../utils/points-utils';
 
 export default class PointModel extends Observable {
   #points = [];
-  #offerModel = null;
-  #cityModel = null;
+  #pointApiService = null;
 
-  constructor({ offerModel, cityModel }) {
+  constructor(pointApiService) {
     super();
-    this.#offerModel = offerModel;
-    this.#cityModel = cityModel;
-
-    this.#points = Array.from({ length: POINT_COUNT }, () => {
-      const type = getRandomArrayElement(EVENT_TYPES);
-
-      const cities = this.#cityModel.getCities();
-      const destinationId = getRandomArrayElement(cities).id;
-      const offers = this.#offerModel.getOfferByType(type).offers;
-      const offersIds = [];
-      offers.forEach((offer) => {
-        if (getRandomInteger(0, 2)) {
-          offersIds.push(offer.id);
-        }
-      });
-
-      const point = getRandomPoint(type, destinationId, offersIds);
-
-      return point;
-    });
+    this.#pointApiService = pointApiService;
+    this.#points = [];
   }
 
   get points() {
     return this.#points.sort(sortByDay);
   }
 
-  updatePoint(updateType, update) {
-    this.#points = updateItem(this.#points, update);
-    this._notify(updateType, update);
+  async init() {
+    try {
+      const points = await this.#pointApiService.points;
+      this.#points = points.map(adaptToClient);
+    } catch(err) {
+      this.#points = [];
+    }
+
+    this._notify(UpdateType.INIT);
+  }
+
+  async updatePoint(updateType, update) {
+    try {
+      const response = await this.#pointApiService.updatePoint(update);
+      const updatePoint = adaptToClient(response);
+      this.#points = updateItem(this.#points, updatePoint);
+      this._notify(updateType, updatePoint);
+    } catch(err) {
+      throw new Error('Can\'t update task');
+    }
   }
 
   addPoint(updateType, update) {
