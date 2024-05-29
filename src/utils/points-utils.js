@@ -1,73 +1,4 @@
 import dayjs from 'dayjs';
-import { getRandomInteger } from './common';
-
-const Duration = {
-  days: 3,
-  hours: 12,
-  minutes: 59
-};
-
-function getRandomDurationTime() {
-  const randomDurationMins = getRandomInteger(0, Duration.minutes);
-  const randomDurationHours = getRandomInteger(0, Duration.hours);
-  const randomDurationDays = getRandomInteger(0, Duration.days);
-
-  return [randomDurationMins, randomDurationHours, randomDurationDays];
-}
-
-const date = dayjs().toDate();
-
-function getDate({ endDateFlag, randomTime, randomDurationTime: randomDurationTime }) {
-  const randomDurationMins = randomDurationTime[0];
-  const randomDurationHours = randomDurationTime[1];
-  const randomDurationDays = randomDurationTime[2];
-
-  if (randomTime === 1) {
-    if (endDateFlag){
-      return dayjs(date)
-        .add(-randomDurationDays, 'day')
-        .add(-randomDurationHours, 'hour')
-        .add(-randomDurationMins, 'minute')
-        .toDate();
-    }
-
-    return dayjs(date)
-      .add(-randomDurationDays * 2, 'day')
-      .add(-randomDurationHours * 2, 'hour')
-      .add(-randomDurationMins * 2, 'minute')
-      .toDate();
-  }
-  else if (randomTime === 2) {
-    if (endDateFlag) {
-      return dayjs(date)
-        .add(randomDurationDays, 'day')
-        .add(randomDurationHours, 'hour')
-        .add(randomDurationMins, 'minute')
-        .toDate();
-    }
-
-    return dayjs(date)
-      .add(-randomDurationDays, 'day')
-      .add(-randomDurationHours, 'hour')
-      .add(-randomDurationMins, 'minute')
-      .toDate();
-  }
-  else {
-    if (endDateFlag) {
-      return dayjs(date)
-        .add(randomDurationDays * 2, 'day')
-        .add(randomDurationHours * 2, 'hour')
-        .add(randomDurationMins * 2, 'minute')
-        .toDate();
-    }
-
-    return dayjs(date)
-      .add(randomDurationDays, 'day')
-      .add(randomDurationHours, 'hour')
-      .add(randomDurationMins, 'minute')
-      .toDate();
-  }
-}
 
 function getDateDiff(dateFrom, dateTo) {
   const diff = dayjs(dateTo).diff(dayjs(dateFrom), 'm');
@@ -88,6 +19,10 @@ function getTime(dt) {
 
 function getMonthAndDate(dt) {
   return dayjs(dt).format('MMM DD');
+}
+
+function getMonDayYearDate(dt) {
+  return dayjs(dt).format('MMM DD YYYY');
 }
 
 function getFullDate(dt) {
@@ -129,11 +64,13 @@ function sortByDay(pointA, pointB) {
 }
 
 function hasBigDifference(point1, point2) {
-  return point1.price !== point2.price || getDateDiff(point1.dateFrom, point1.dateTo) !== getDateDiff(point2.dateFrom, point2.dateTo);
+  return point1.price !== point2.price
+    || getDateDiff(point1.dateFrom, point1.dateTo) !== getDateDiff(point2.dateFrom, point2.dateTo)
+    || point1.destination !== point2.destination
+    || point1.offers !== point2.offers;
 }
 
 export {
-  getDate,
   getDateDiff,
   getFullDate,
   getMonthAndDate,
@@ -141,10 +78,10 @@ export {
   isFuturedPoint,
   isPastedPoint,
   isPresentedPoint,
-  getRandomDurationTime,
   sortByDay,
   sortByOffers,
   sortByPrice,
   sortByTime,
   hasBigDifference,
+  getMonDayYearDate
 };
