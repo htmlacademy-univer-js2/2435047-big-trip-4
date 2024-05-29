@@ -9,8 +9,10 @@ import { sortByOffers, sortByPrice, sortByTime } from '../utils/points-utils.js'
 import { filter } from '../utils/filter.js';
 import NewPointPresenter from './new-point-presenter.js';
 import UiBlocker from '../framework/ui-blocker/ui-blocker.js';
+import TripInfoView from '../view/trip-info-view.js';
 
 export default class TripPresenter {
+  #tripMainContainer = null;
   #eventsContainer = null;
   #pointModel = null;
   #cityModel = null;
@@ -18,6 +20,7 @@ export default class TripPresenter {
   #filterModel = null;
   #sortComponent = null;
   #noPointComponent = null;
+  #tripInfoComponent = null;
   #isLoading = true;
 
   #pointPresenters = new Map();
@@ -32,7 +35,8 @@ export default class TripPresenter {
   });
 
 
-  constructor({ eventsContainer, pointModel, cityModel, offerModel, filterModel, onNewPointDestroy }) {
+  constructor({ tripMainContainer, eventsContainer, pointModel, cityModel, offerModel, filterModel, onNewPointDestroy }) {
+    this.#tripMainContainer = tripMainContainer;
     this.#eventsContainer = eventsContainer;
     this.#pointModel = pointModel;
     this.#cityModel = cityModel;
@@ -80,6 +84,7 @@ export default class TripPresenter {
 
     this.#renderPointList();
     this.#renderPoints();
+    this.#renderTripInfoView();
 
     this.#renderSortView();
   }
@@ -116,6 +121,16 @@ export default class TripPresenter {
     this.#clearBoard({ resetRenderedTaskCount: true });
     this.#renderBoard();
   };
+
+  #renderTripInfoView() {
+    if (this.#tripInfoComponent !== null) {
+      remove(this.#tripInfoComponent);
+    }
+
+    this.#tripInfoComponent = new TripInfoView(this.#pointModel, this.#offerModel, this.#cityModel);
+
+    render(this.#tripInfoComponent, this.#tripMainContainer, RenderPosition.AFTERBEGIN);
+  }
 
   #renderSortView() {
     if (this.#sortComponent !== null) {

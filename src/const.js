@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 
 const DEFAULT_TYPE = 'taxi';
+const CITIES_LENGTH_BORDER = 3;
 
 const EVENT_TYPES = [
   'Taxi',
@@ -94,5 +95,6 @@ export {
   ButtonText,
   EMPTY_POINT,
   Method,
-  TimeLimit
+  TimeLimit,
+  CITIES_LENGTH_BORDER
 };

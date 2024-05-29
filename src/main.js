@@ -22,6 +22,7 @@ const filterModel = new FilterModel();
 const pointModel = new PointModel(pointApiService);
 
 const tripPresentor = new TripPresenter({
+  tripMainContainer: mainTripElement,
   eventsContainer: tripEvents,
   pointModel,
   cityModel,
@@ -53,7 +54,7 @@ tripPresentor.init();
 offerModel.init().finally(() => {
   cityModel.init().finally(() => {
     pointModel.init().finally(() => {
-      render(newPointButtonComponent, mainTripElement, RenderPosition.AFTEREND);
+      render(newPointButtonComponent, mainTripElement, RenderPosition.BEFOREEND);
     });
   });
 });
