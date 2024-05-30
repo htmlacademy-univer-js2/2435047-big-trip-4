@@ -11,18 +11,18 @@ export default class PointPresenter {
   #handleDataChange = null;
   #handleModeChange = null;
 
-  #eventsComponentElement = null;
+  #eventListViewComponentElement = null;
 
   #point = null;
-  #cityModel = null;
+  #destinationModel = null;
   #offerModel = null;
 
   #mode = Mode.DEFAULT;
 
 
-  constructor({ eventsComponentElement, cityModel, offerModel, onDataChange, onModeChange }) {
-    this.#eventsComponentElement = eventsComponentElement;
-    this.#cityModel = cityModel;
+  constructor({ eventListViewComponentElement, destinationModel, offerModel, onDataChange, onModeChange }) {
+    this.#eventListViewComponentElement = eventListViewComponentElement;
+    this.#destinationModel = destinationModel;
     this.#offerModel = offerModel;
     this.#handleDataChange = onDataChange;
     this.#handleModeChange = onModeChange;
@@ -36,23 +36,23 @@ export default class PointPresenter {
 
     this.#pointViewComponent = new PointView({
       point: this.#point,
-      pointDestination: this.#cityModel.getCityById(point.destination),
-      pointOffers: this.#offerModel.getOfferByType(point.type).offers,
+      pointDestination: this.#destinationModel.getDestinationById(point.destination),
+      pointOffers: this.#offerModel.getOffersByType(point.type).offers,
       onClick: this.#handleOnClick,
       onFavoriteClick: this.#handleFavoriteClick
     });
 
     this.#pointEditViewComponent = new PointEditView({
       point: this.#point,
-      pointDestinations: this.#cityModel.getCities(),
-      pointOffers: this.#offerModel.getOffers(),
+      pointDestinations: this.#destinationModel.destinations,
+      pointOffers: this.#offerModel.offers,
       onFormSubmit: this.#handleOnFormSubmit,
       onRollUpClick: this.#handleOnRollUpClick,
       onEditDelete: this.#handleOnDeleteEditPoint
     });
 
     if (prevPointViewComponent === null || prevPointEditViewComponent === null) {
-      render(this.#pointViewComponent, this.#eventsComponentElement);
+      render(this.#pointViewComponent, this.#eventListViewComponentElement);
       return;
     }
 
@@ -79,6 +79,36 @@ export default class PointPresenter {
       this.#pointEditViewComponent.reset(this.#point);
       this.#replaceEditToEvent();
     }
+  }
+
+  setSaving() {
+    if (this.#mode === Mode.EDITING) {
+      this.#pointEditViewComponent.updateElement({
+        isDisabled: true,
+        isSaving: true,
+      });
+    }
+  }
+
+  setDeleting() {
+    if (this.#mode === Mode.EDITING) {
+      this.#pointEditViewComponent.updateElement({
+        isDisabled: true,
+        isDeleting: true,
+      });
+    }
+  }
+
+  setAborting() {
+    const resetFormState = () => {
+      this.#pointEditViewComponent.updateElement({
+        isDisabled: false,
+        isSaving: false,
+        isDeleting: false,
+      });
+    };
+
+    this.#pointEditViewComponent.shake(resetFormState);
   }
 
   #replaceEventToEdit() {
@@ -135,34 +165,4 @@ export default class PointPresenter {
       point,
     );
   };
-
-  setSaving() {
-    if (this.#mode === Mode.EDITING) {
-      this.#pointEditViewComponent.updateElement({
-        isDisabled: true,
-        isSaving: true,
-      });
-    }
-  }
-
-  setDeleting() {
-    if (this.#mode === Mode.EDITING) {
-      this.#pointEditViewComponent.updateElement({
-        isDisabled: true,
-        isDeleting: true,
-      });
-    }
-  }
-
-  setAborting() {
-    const resetFormState = () => {
-      this.#pointEditViewComponent.updateElement({
-        isDisabled: false,
-        isSaving: false,
-        isDeleting: false,
-      });
-    };
-
-    this.#pointEditViewComponent.shake(resetFormState);
-  }
 }

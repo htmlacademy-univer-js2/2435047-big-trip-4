@@ -16,8 +16,8 @@ function createTypesElement(currentType, isDisabled) {
           </fieldset>`;
 }
 
-function createDestinationElement(destinations) {
-  const result = destinations.map((city) => `<option value="${city.name}"></option>`);
+function createDestinationListElement(destinations) {
+  const result = destinations.map((destination) => `<option value="${destination.name}"></option>`);
 
   return `<datalist id="destination-list-1">
     ${result.join('')}
@@ -42,7 +42,19 @@ function createPointOfferElement(offers, checkedOffers, isDisabled) {
       </label>
     </div>`).join('');
 
-  return `<div class="event__available-offers">${offersElement}</div>`;
+  return offers.length ? `<h3 class="event__section-title  event__section-title--offers">Offers</h3><div class="event__available-offers">${offersElement}</div>` : '<div class="event__available-offers hidden"></div>';
+}
+
+function createDestinationElement(currentDestination) {
+  return currentDestination ? `
+      <h3 class="event__section-title  event__section-title--destination">Destination</h3>
+        <p class="event__destination-description">${currentDestination.description}</p>
+
+        <div class="event__photos-container">
+          <div class="event__photos-tape">
+          ${createImagesElement(currentDestination)}
+          </div>
+        </div>` : '';
 }
 
 function createImagesElement(currentDestination) {
@@ -75,15 +87,15 @@ function createPointEditTemplate({ point, pointDestinations, pointOffers, isNewP
           ${type}
         </label>
         <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${he.encode(currentDestination ? currentDestination.name : '')}" list="destination-list-1" ${isDisabled ? 'disabled' : ''}>
-        ${createDestinationElement(pointDestinations)}
+        ${createDestinationListElement(pointDestinations)}
       </div>
 
       <div class="event__field-group  event__field-group--time">
         <label class="visually-hidden" for="event-start-time-1">From</label>
-        <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${getFullDate(dateFrom)}" ${isDisabled ? 'disabled' : ''}>
+        <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${dateFrom ? getFullDate(dateFrom) : ''}" ${isDisabled ? 'disabled' : ''}>
         &mdash;
         <label class="visually-hidden" for="event-end-time-1">To</label>
-        <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${getFullDate(dateTo)}" ${isDisabled ? 'disabled' : ''}>
+        <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${dateTo ? getFullDate(dateTo) : ''}" ${isDisabled ? 'disabled' : ''}>
       </div>
 
       <div class="event__field-group  event__field-group--price">
@@ -100,19 +112,13 @@ function createPointEditTemplate({ point, pointDestinations, pointOffers, isNewP
     </header>
     <section class="event__details">
       <section class="event__section  event__section--offers">
-        <h3 class="event__section-title  event__section-title--offers">Offers</h3>
 
         ${createPointOfferElement(currentOffers.offers, offers, isDisabled)}
 
       <section class="event__section  event__section--destination">
-        <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-        <p class="event__destination-description">${currentDestination ? currentDestination.description : ''}</p>
 
-        <div class="event__photos-container">
-          <div class="event__photos-tape">
-          ${createImagesElement(currentDestination)}
-          </div>
-        </div>
+        ${createDestinationElement(currentDestination)}
+
       </section>
     </section>
   </form>

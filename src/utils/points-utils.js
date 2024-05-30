@@ -1,32 +1,33 @@
 import dayjs from 'dayjs';
 
-function getDateDiff(dateFrom, dateTo) {
-  const diff = dayjs(dateTo).diff(dayjs(dateFrom), 'm');
+function getDateDifference(dateFrom, dateTo) {
+  const difference = dayjs(dateTo).diff(dayjs(dateFrom), 'm') + 1;
 
-  if (Math.ceil(diff / 1440) > 1) {
-    return `${Math.ceil(diff / 1440)} D`;
+  if (difference / 1440 > 1) {
+    return `${Math.floor(difference / 1440)} D ${Math.floor(difference % 1440 / 60)} H ${Math.floor(difference % 60)} M`;
   }
 
-  if (Math.ceil(diff / 60) > 1) {
-    return `${Math.ceil(diff / 60)} H`;
+  if (difference / 60 > 1) {
+    return `${Math.floor(difference / 60)} H ${Math.floor(difference % 60)} M`;
   }
-  return `${Math.ceil(diff)} M`;
+
+  return `${Math.floor(difference)} M`;
 }
 
-function getTime(dt) {
-  return dayjs(dt).format('hh:mm');
+function getTime(date) {
+  return dayjs(date).format('hh:mm');
 }
 
-function getMonthAndDate(dt) {
-  return dayjs(dt).format('MMM DD');
+function getMonthAndDate(date) {
+  return dayjs(date).format('MMM DD');
 }
 
-function getMonDayYearDate(dt) {
-  return dayjs(dt).format('MMM DD YYYY');
+function getMonDayYearDate(date) {
+  return dayjs(date).format('MMM DD YYYY');
 }
 
-function getFullDate(dt) {
-  return dayjs(dt).format('DD/MM/YY hh:mm');
+function getFullDate(date) {
+  return dayjs(date).format('DD/MM/YY hh:mm');
 }
 
 function isFuturedPoint(point) {
@@ -42,14 +43,14 @@ function isPastedPoint(point) {
 }
 
 function sortByTime(pointA, pointB) {
-  const timeFrom = dayjs(pointA.dateTo).diff(dayjs(pointA.dateFrom));
-  const timeTo = dayjs(pointB.dateTo).diff(dayjs(pointB.dateFrom));
+  const timeFrom = dayjs(pointB.dateTo).diff(dayjs(pointB.dateFrom));
+  const timeTo = dayjs(pointA.dateTo).diff(dayjs(pointA.dateFrom));
 
   return timeFrom - timeTo;
 }
 
 function sortByPrice(pointA, pointB) {
-  return pointA.basePrice - pointB.basePrice;
+  return pointB.basePrice - pointA.basePrice;
 }
 
 function sortByOffers(pointA, pointB) {
@@ -65,13 +66,13 @@ function sortByDay(pointA, pointB) {
 
 function hasBigDifference(point1, point2) {
   return point1.price !== point2.price
-    || getDateDiff(point1.dateFrom, point1.dateTo) !== getDateDiff(point2.dateFrom, point2.dateTo)
+    || getDateDifference(point1.dateFrom, point1.dateTo) !== getDateDifference(point2.dateFrom, point2.dateTo)
     || point1.destination !== point2.destination
     || point1.offers !== point2.offers;
 }
 
 export {
-  getDateDiff,
+  getDateDifference,
   getFullDate,
   getMonthAndDate,
   getTime,

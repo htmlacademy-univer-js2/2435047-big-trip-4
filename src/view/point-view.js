@@ -1,5 +1,5 @@
 import AbstractView from '../framework/view/abstract-view.js';
-import { getDateDiff, getMonthAndDate, getTime } from '../utils/points-utils.js';
+import { getDateDifference, getMonthAndDate, getTime } from '../utils/points-utils.js';
 import he from 'he';
 
 function createOffersElementTemplate(checkedOffers, offers) {
@@ -29,7 +29,7 @@ function createPointTemplate({ point, pointDestination, pointOffers }) {
                 &mdash;
                 <time class="event__end-time" datetime="${dateTo}">${getTime(dateTo)}</time>
               </p>
-              <p class="event__duration">${getDateDiff(dateFrom, dateTo)}</p>
+              <p class="event__duration">${getDateDifference(dateFrom, dateTo)}</p>
             </div>
             <p class="event__price">
               &euro;&nbsp;<span class="event__price-value">${he.encode(basePrice.toString())}</span>
