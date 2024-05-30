@@ -10,14 +10,14 @@ function getPointsDataRange(points) {
   return { startDate, endDate };
 }
 
-function getTripRoute(points, cityModel) {
-  const cities = [];
+function getTripRoute(points, destinationModel) {
+  const destinations = [];
 
   points.forEach((point) => {
-    cities.push(cityModel.getCityById(point.destination).name);
+    destinations.push(destinationModel.getDestinationById(point.destination).name);
   });
 
-  return cities;
+  return destinations;
 }
 
 function getTripPrice(points, offerModel) {
@@ -33,7 +33,7 @@ function getTripPrice(points, offerModel) {
 
 function getPointOffersPrice(point, offerModel) {
   let result = 0;
-  const pointOffers = offerModel.getOfferByType(point.type).offers;
+  const pointOffers = offerModel.getOffersByType(point.type).offers;
 
   pointOffers.forEach((offer) => {
     if (point.offers.includes(offer.id)) {

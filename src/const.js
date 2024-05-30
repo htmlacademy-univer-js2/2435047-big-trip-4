@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 
-const DEFAULT_TYPE = 'taxi';
-const CITIES_LENGTH_BORDER = 3;
+const DEFAULT_TYPE = 'flight';
+const DESTINATIONS_LENGTH_BORDER = 3;
 
 const EVENT_TYPES = [
   'Taxi',
@@ -96,5 +96,5 @@ export {
   EMPTY_POINT,
   Method,
   TimeLimit,
-  CITIES_LENGTH_BORDER
+  DESTINATIONS_LENGTH_BORDER
 };

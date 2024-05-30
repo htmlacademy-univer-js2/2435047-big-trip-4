@@ -1,12 +1,12 @@
-import { CITIES_LENGTH_BORDER } from '../const.js';
+import { DESTINATIONS_LENGTH_BORDER } from '../const.js';
 import AbstractView from '../framework/view/abstract-view.js';
 import { getPointsDataRange, getTripPrice, getTripRoute } from '../utils/trip-info-utils.js';
 
-function createTripInfoTemplate({ dateRange, cities, totalPrice }) {
+function createTripInfoTemplate({ dateRange, destinations, totalPrice }) {
   return (
     `<section class="trip-main__trip-info  trip-info">
       <div class="trip-info__main">
-        <h1 class="trip-info__title">${cities.length > CITIES_LENGTH_BORDER ? `${cities[0]} &mdash; .... &mdash; ${cities.at(-1)}` : cities.join(' &mdash; ')}</h1>
+        <h1 class="trip-info__title">${destinations.length > DESTINATIONS_LENGTH_BORDER ? `${destinations[0]} &mdash; ... &mdash; ${destinations.at(-1)}` : destinations.join(' &mdash; ')}</h1>
 
         <p class="trip-info__dates">${dateRange.startDate}&nbsp;&mdash;&nbsp;${dateRange.endDate}</p>
       </div>
@@ -21,20 +21,27 @@ function createTripInfoTemplate({ dateRange, cities, totalPrice }) {
 export default class TripInfoView extends AbstractView {
   #pointModel = null;
   #offerModel = null;
-  #cityModel = null;
+  #destinationModel = null;
 
-  constructor(pointModel, offerModel, cityModel) {
+  #dateRange = null;
+  #destinations = null;
+  #totalPrice = null;
+
+  constructor(pointModel, offerModel, destinationModel) {
     super();
     this.#pointModel = pointModel;
     this.#offerModel = offerModel;
-    this.#cityModel = cityModel;
+    this.#destinationModel = destinationModel;
+    this.#dateRange = getPointsDataRange(this.#pointModel.points);
+    this.#destinations = getTripRoute(this.#pointModel.points, this.#destinationModel);
+    this.#totalPrice = getTripPrice(this.#pointModel.points, this.#offerModel);
   }
 
   get template() {
     return createTripInfoTemplate({
-      dateRange: getPointsDataRange(this.#pointModel.points),
-      cities: getTripRoute(this.#pointModel.points, this.#cityModel),
-      totalPrice: getTripPrice(this.#pointModel.points, this.#offerModel)
+      dateRange: this.#dateRange,
+      destinations: this.#destinations,
+      totalPrice: this.#totalPrice
     });
   }
 }
